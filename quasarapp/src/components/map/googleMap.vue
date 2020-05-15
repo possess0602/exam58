@@ -25,7 +25,17 @@
             <span class="q-ml-md">目前選擇的日期: {{ chooseDate }}</span>
           </div>
           <div class="row-8 q-py-sm">
-            <p>起點</p>
+            <p>
+              起點
+              <q-btn
+                class="col q-ml-sm"
+                label="重新選擇"
+                @click="initAndPushData()"
+                color="teal-5"
+                size="11px"
+                dense
+              />
+            </p>
             <q-select
               id="start"
               filled
@@ -68,7 +78,13 @@
             </q-scroll-area>
           </div>
           <div class="row-8 q-py-sm">
-            <q-btn class="col" label="Submit" type="submit" color="red" />
+            <q-btn
+              class="col q-ml-sm"
+              label="開始計算"
+              type="submit"
+              color="red-5"
+              style="font-weight:bold"
+            />
           </div>
           <!-- <slot name="chooseForArrange"></slot> -->
           <!-- <q-btn label="test" @click="deleteMarkers()"></q-btn> -->
@@ -153,7 +169,29 @@ export default {
         }
       );*/
     },
+    initChooseItem() {
+      //清除上一次選擇的項目
+      this.start = "";
+      this.waypoint = [];
+      this.end = "";
+    },
+    initAndPushData() {
+      new Promise((resolve, reject) => {
+        console.log("Initial");
+        this.initChooseItem();
+        resolve();
+      }).then(() => {
+        var everydaySites = this.everydaySites[this.chooseDate];
+        everydaySites.forEach((item, index) => {
+          this.originOptions.push(item);
+          this.waypointOptions.push(item);
+          this.endOptions.push(item);
+        });
+      });
+    },
     chooseForArrange() {
+      this.initChooseItem();
+
       this.endOptions = [];
       this.originOptions = [];
       this.waypointOptions = [];
@@ -167,7 +205,6 @@ export default {
           color: "secondary"
         });
       });
-
       this.$q
         .dialog({
           title: "選擇您安排的日期",
@@ -182,6 +219,7 @@ export default {
           persistent: true
         })
         .onOk(data => {
+          //把值塞進下拉選單
           this.chooseDate = data;
           var everydaySites = this.everydaySites[data];
           everydaySites.forEach((item, index) => {
@@ -189,6 +227,7 @@ export default {
             this.waypointOptions.push(item);
             this.endOptions.push(item);
           });
+
           console.log("this.originOptions: ", this.originOptions);
 
           /* this.$store.dispatch("travel/fbAddEverySiteData", {
@@ -199,6 +238,7 @@ export default {
 
           // console.log('>>>> OK, received', data)
         })
+
         .onCancel(() => {
           // console.log('>>>> Cancel')
         })
@@ -380,6 +420,7 @@ export default {
       this.endOptions = this.endOptions.filter(item => {
         return item != this.start;
       });
+      this.originOptions.length = 0;
       //console.log("this.item_1:", this.waypointOptions);
     },
     waypoint: function(val) {
@@ -392,6 +433,10 @@ export default {
         });
         console.log("this.item_1:", this.endOptions);
       });
+    },
+    end: function(val) {
+      this.waypointOptions.length = 0;
+      this.endOptions.length = 0;
     }
   }
 };

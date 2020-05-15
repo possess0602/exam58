@@ -1,127 +1,51 @@
 <template>
-  <div class="container mt-4">
-    <h2 class=" text-center text-secondary pb-2">台北市營運餐廳</h2>
-    <div class=" row map-container border rounded">
-      <div class="col">
-        <ul class="nav justify-content-center border-bottom">
-          <!--營運地區 nav-->
-        </ul>
-        <!--地圖呈現在此-->
-        <div class="google-map" id="map"></div>
-      </div>
-      <div class="col">
-        <q-select filled v-model="model" :options="options" label="Filled" />
-      </div>
-    </div></div
-></template>
+  <div class="q-pa-md" style="max-width: 300px">
+    <div class="q-gutter-md">
+      <q-badge color="secondary" multi-line> Model: "{{ model }}" </q-badge>
 
+      <q-select filled v-model="model" :options="options" label="Standard" />
+    </div>
+  </div>
+</template>
 <script>
 export default {
-  name: "Restaurants",
   data() {
     return {
-      map: null,
-      // 預設經緯度在信義區附近
-      lat: 25.0325917,
-      lng: 121.5624999,
       model: null,
-      originOptions: ["Halifax, NS", "Boston, MA", "New York, NY", "Miami, FL"],
-      waypointOptions: [
-        "Montreal, QBC",
-        "Toronto, ONT",
-        "Chicago",
-        "Winnipeg",
-        "Fargo"
-      ],
-      endOptions: [
-        "Vancouver, BC",
-        "Seattle, WA",
-        "San Francisco, CA",
-        "Los Angeles, CA"
+      options: [
+        {
+          label: "Google",
+          value: "Google",
+          description: "Search engine",
+          icon: "mail"
+        },
+        {
+          label: "Facebook",
+          value: "Facebook",
+          description: "Social media",
+          icon: "bluetooth"
+        },
+        {
+          label: "Twitter",
+          value: "Twitter",
+          description: "Quick updates",
+          icon: "map"
+        },
+        {
+          label: "Apple",
+          value: "Apple",
+          description: "iStuff",
+          icon: "golf_course"
+        },
+        {
+          label: "Oracle",
+          value: "Oracle",
+          disable: true,
+          description: "Databases",
+          icon: "casino"
+        }
       ]
     };
-  },
-  mounted() {
-    this.initMap();
-    this.setMarker();
-  },
-  methods: {
-    // 建立地圖
-    initMap() {
-      // 透過 Map 物件建構子建立新地圖 map 物件實例，並將地圖呈現在 id 為 map 的元素中
-      this.map = new google.maps.Map(document.getElementById("map"), {
-        // 設定地圖的中心點經緯度位置
-        center: { lat: this.lat, lng: this.lng },
-        // 設定地圖縮放比例 0-20
-        zoom: 15,
-        // 限制使用者能縮放地圖的最大比例
-        maxZoom: 20,
-        // 限制使用者能縮放地圖的最小比例
-        minZoom: 3,
-        // 設定是否呈現右下角街景小人
-        streetViewControl: false,
-        // 設定是否讓使用者可以切換地圖樣式：一般、衛星圖等
-        mapTypeControl: false
-      });
-    },
-    // 建立地標
-    setMarker() {
-      // 建立一個新地標
-      const marker = new google.maps.Marker({
-        // 設定地標的座標
-        position: { lat: this.lat, lng: this.lng },
-        // 設定地標要放在哪一個地圖
-        map: this.map
-      });
-    }
   }
 };
 </script>
-
-<style scoped>
-.google-map {
-  width: 100%;
-  height: 400px;
-}
-#right-panel {
-  font-family: "Roboto", "sans-serif";
-  line-height: 30px;
-  padding-left: 10px;
-}
-
-#right-panel select,
-#right-panel input {
-  font-size: 15px;
-}
-
-#right-panel select {
-  width: 100%;
-}
-
-#right-panel i {
-  font-size: 12px;
-}
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 20px;
-}
-
-#right-panel {
-  margin: 20px;
-  border-width: 2px;
-  width: 20%;
-  height: 400px;
-  float: left;
-  text-align: left;
-  padding-top: 0;
-}
-#directions-panel {
-  margin-top: 10px;
-  background-color: #ffee77;
-  padding: 10px;
-  overflow: scroll;
-  height: 174px;
-}
-</style>
