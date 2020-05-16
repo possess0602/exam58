@@ -22,7 +22,7 @@ const mutations = {
   },
   h_addCollection(state, payload) {
     Vue.set(state.h_collections, payload.id, payload.collection);
-    console.log("h_addCollection: ", state.h_collections);
+    // console.log("h_addCollection: ", state.h_collections);
 
     // state.sightseeingMembers = payload;
   },
@@ -40,7 +40,7 @@ const actions = {
   // 讀景點收藏的資料
   fbReadData({ commit }) {
     const uid = firebaseAuth.currentUser.uid;
-    console.log("fbReadData", uid);
+    // console.log("fbReadData", uid);
     const userCollection = fstore
       .collection("sightseeingMember")
       .doc(uid)
@@ -60,7 +60,7 @@ const actions = {
   // 讀飯店收藏的資料
   h_fbReadData({ commit }) {
     const uid = firebaseAuth.currentUser.uid;
-    console.log("fbReadData", uid);
+    // console.log("fbReadData", uid);
     const userCollection = fstore
       .collection("sightseeingMember")
       .doc(uid)
