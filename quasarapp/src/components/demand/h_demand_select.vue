@@ -36,7 +36,7 @@
             input-debounce="0"
             :options="options"
             @filter="filterFn_2"
-            hint="選擇類型"
+            hint="請選擇服務"
             style="width: 250px; padding-bottom: 32px"
           >
             <template v-slot:no-option>
@@ -57,7 +57,7 @@
             input-debounce="0"
             :options="options"
             @filter="filterFn_3"
-            hint="請選擇類型"
+            hint="請選擇服務"
             style="width: 250px; padding-bottom: 32px"
           >
             <template v-slot:no-option>
