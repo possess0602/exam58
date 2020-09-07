@@ -38,33 +38,41 @@
             <q-item-label class>建立旅程表</q-item-label>
           </q-item-section>
         </q-item>-->
-        <div class="gt-xs title text-bold">
-          <q-btn-dropdown flat label="景點分析">
-            <q-item clickable v-close-popup to="/site_demend" v-show="role == 'generalUser'">
-              <q-item-section>
-                <q-item-label>
-                  景點GO-
-                  <b>需求分析</b>
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-close-popup to="/site_ProsCons">
-              <q-item-section>
-                <q-item-label>
-                  景點GO-
-                  <b>優缺點分析</b>
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-close-popup to="/site_Path">
-              <q-item-section>
-                <q-item-label>
-                  景點GO-
-                  <b>路徑分析</b>
-                </q-item-label>
-              </q-item-section>
-            </q-item>
+        <div
+          class="gt-xs title text-bold"
+          @mouseover="menuOver = true"
+          @mouseout="menuOver = false"
+        >
+          <q-btn-dropdown v-model="menu" flat label="景點分析">
+            <q-list @mouseover.native="listOver = true" @mouseout.native="listOver = false">
+              <q-item clickable v-close-popup to="/site_demend" v-show="role == 'generalUser'">
+                <q-item-section>
+                  <q-item-label>
+                    景點GO-
+                    <b>需求分析</b>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup to="/site_ProsCons">
+                <q-item-section>
+                  <q-item-label>
+                    景點GO-
+                    <b>優缺點分析</b>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup to="/site_Path">
+                <q-item-section>
+                  <q-item-label>
+                    景點GO-
+                    <b>路徑分析</b>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
           </q-btn-dropdown>
+        </div>
+        <div class="gt-xs title text-bold">
           <q-btn-dropdown flat label="飯店分析">
             <q-item clickable v-close-popup to="/hotel_demend" v-show="role == 'generalUser'">
               <q-item-section>
@@ -191,44 +199,45 @@
 
 <script>
 import { mapState, mapActions, mapGetter } from "vuex";
+import { debounce } from "quasar";
 const menuList = [
   {
     icon: "home",
     label: "首頁",
     to: "/",
-    separator: true
+    separator: true,
   },
   {
     icon: "send",
     label: "Outbox",
-    separator: false
+    separator: false,
   },
   {
     icon: "delete",
     label: "Trash",
-    separator: false
+    separator: false,
   },
   {
     icon: "error",
     label: "Spam",
-    separator: true
+    separator: true,
   },
   {
     icon: "settings",
     label: "Settings",
-    separator: false
+    separator: false,
   },
   {
     icon: "feedback",
     label: "Send Feedback",
-    separator: false
+    separator: false,
   },
   {
     icon: "help",
     iconColor: "primary",
     label: "Help",
-    separator: false
-  }
+    separator: false,
+  },
 ];
 export default {
   name: "MainLayout",
@@ -237,12 +246,16 @@ export default {
     return {
       tab: "mails",
       rightDrawerOpen: false,
-      menuList
+      menuList,
+
+      menu: false,
+      menuOver: false,
+      listOver: false,
     };
   },
   computed: {
     ...mapState("auth", ["loggedIn"]),
-    ...mapState("auth", ["role", "userDetail"])
+    ...mapState("auth", ["role", "userDetail"]),
   },
   methods: {
     ...mapActions("auth", ["logoutUser"]),
@@ -253,13 +266,31 @@ export default {
           title: "切換身分",
           message: "您是否要登出並進入選擇身分頁面?",
           cancel: true,
-          persistent: true
+          persistent: true,
         })
         .onOk(() => {
           this.logoutUser();
         });
-    }
-  }
+    },
+    debounceFunc: debounce(function () {
+      this.checkMenu();
+    }, 150),
+    checkMenu() {
+      if (this.menuOver || this.listOver) {
+        this.menu = true;
+      } else {
+        this.menu = false;
+      }
+    },
+  },
+  watch: {
+    menuOver(val) {
+      this.debounceFunc();
+    },
+    listOver(val) {
+      this.debounceFunc();
+    },
+  },
 };
 </script>
 <style lang="scss">
