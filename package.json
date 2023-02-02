@@ -25,6 +25,6 @@
     },
     "dependencies": {
         "vue-exec-fun": "^2.3.0",
-        "vue-resource": "^1.5.1"
+        "vue-resource": "^1.5.3"
     }
 }
