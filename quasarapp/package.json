@@ -13,7 +13,7 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
-    "firebase": "^7.14.0",
+    "firebase": "^7.24.0",
     "js-call-r": "0.0.4",
     "moment": "^2.24.0",
     "polyline-encoded": "0.0.9",
