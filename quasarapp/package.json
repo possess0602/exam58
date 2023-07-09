@@ -25,7 +25,7 @@
     "vuex-map-fields": "^1.4.0"
   },
   "devDependencies": {
-    "@quasar/app": "^1.7.0",
+    "@quasar/app": "^3.3.3",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
@@ -35,7 +35,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.1.2",
-    "node-sass": "^4.14.1",
+    "node-sass": "^9.0.0",
     "sass-loader": "^8.0.2",
     "vuedraggable": "^2.23.2"
   },
